@@ -1,2 +1,9 @@
 @import "tailwindcss";
 
+
+#dice-box > canvas {
+    position: absolute;
+    width: 25em;
+    height: 15em;
+    padding: 1em;
+}

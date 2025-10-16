@@ -1,4 +1,5 @@
 import Card from "./components/Card"
+import DiceRoller from "./components/DiceRoll"
 import MainContextProvider from "./datas/MainContext"
 
 const App = () => {
@@ -28,8 +29,8 @@ const App = () => {
         BackBack
       </div>
 
-      <div className="border-2 border-black absolute top-[25%] left-[85%] -translate-x-1/2 -translate-y-1/2 w-[15em] h-[15em] rounded-2xl flex justify-center items-center">
-        🎲
+      <div className=" absolute top-[20%] left-[80%] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
+        <DiceRoller></DiceRoller>
       </div>
 
       <div className="border-2 border-black absolute top-[70%] left-[85%] -translate-x-1/2 -translate-y-1/2 w-[15em] h-[23em] rounded-2xl flex justify-center items-center">
