@@ -1,0 +1,13 @@
+[
+
+    {
+        "enemyName":"",
+        "enemyIcon":"",
+        "cr": 13,
+        "baseDamage":3,
+        "minDamage":1,
+        "maxDamage":5,
+        "flee":7,
+        "reward":""
+    }
+]

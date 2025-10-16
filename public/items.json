@@ -1,0 +1,12 @@
+[
+    {
+        "itemName":"Healing Potion",
+        "effect": "heal",
+        "rarity": "Common"
+    },
+    {
+        "itemName":"Greater Healing Potion",
+        "effect": "heal",
+        "rarity": "Rare"
+    }
+]
