@@ -8,6 +8,7 @@
         "minDamage":1,
         "maxDamage":5,
         "flee":7,
-        "reward":""
+        "reward":"",
+        "type": ""
     }
 ]
