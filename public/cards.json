@@ -9,6 +9,7 @@
         "maxDamage":5,
         "flee":7,
         "reward":"",
-        "type": ""
+        "type": "",
+        "description": ""
     }
 ]
