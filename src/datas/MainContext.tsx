@@ -24,9 +24,13 @@ type MainContextType ={
     cards: MonsterType[],
     items: ItemType[],
     onMonster: MonsterType,
+    position: number,
     roll: boolean,
     result: number,
     isFlee: boolean,
+    maxHp: number,
+    hp: number,
+    setHp: (h: number)=>void,
     setIsFlee: (f: boolean)=> void,
     setResult: (n: number)=> void,
     setRoll: (r: boolean)=> void,
@@ -51,9 +55,13 @@ export const MainContext = createContext<MainContextType>({
         flee: 0,
         description: "",
     },
+    position: 1,
     roll: false,
     result: 0,
     isFlee: false,
+    maxHp: 10,
+    hp: 10,
+    setHp: ()=> {},
     setIsFlee: () => {}, // noop function
     setResult: () => {},
     setRoll: () => {},
@@ -82,12 +90,15 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         })
 
     const [items, setItems] = useState<ItemType[]>([])
-    const [position, setPosition] = useState<number>(0)
+    const [position, setPosition] = useState<number>(-1)
 
     const [roll, setRoll] = useState<boolean>(false)
 
     const [result, setResult] = useState<number>(0)
     const [isFlee, setIsFlee] = useState<boolean>(false)
+
+    const [maxHp, setMaxHp] = useState<number>(10)
+    const [Hp, setHp] = useState<number>(10)
 
 
     useEffect(()=>{
@@ -141,9 +152,13 @@ const MainContextProvider = (props: {children: ReactNode}) => {
             cards: cards, 
             items:items, 
             onMonster: onMonster,
+            position: position,
             roll: roll, 
             result: result,
             isFlee: isFlee,
+            maxHp: maxHp,
+            hp: Hp,
+            setHp: setHp,
             setIsFlee: setIsFlee, 
             setResult: setResult, 
             setRoll: setRoll, 
