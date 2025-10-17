@@ -39,7 +39,7 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
             box.onRollComplete = (results: DiceResult[]) => {
                 results.forEach(element => {
                     
-                    console.log("Dice results:", element.value);
+                    ctx?.setResult(element.value)
                 });
             };
         });

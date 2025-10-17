@@ -23,28 +23,71 @@ export type ItemType ={
 type MainContextType ={
     cards: MonsterType[],
     items: ItemType[],
-    onMonster: MonsterType | undefined,
+    onMonster: MonsterType,
     roll: boolean,
-    setRoll: (r: boolean)=> void
+    result: number,
+    isFlee: boolean,
+    setIsFlee: (f: boolean)=> void,
+    setResult: (n: number)=> void,
+    setRoll: (r: boolean)=> void,
     setPosition: () => void,
     removeItem: (i: number) => void
 }
 
 
-export const MainContext = createContext<MainContextType | undefined>(undefined) 
+export const MainContext = createContext<MainContextType>({
+    cards: [], // empty array for monsters
+    items: [], // empty array for items
+    onMonster: {
+        enemyName: "",
+        enemyIcon: "",
+        tier: "low", // or whatever default tier
+        cr: 0,
+        type: "",
+        isBoss: false,
+        baseDamage: 0,
+        minDamage: 0,
+        maxDamage: 0,
+        flee: 0,
+        description: "",
+    },
+    roll: false,
+    result: 0,
+    isFlee: false,
+    setIsFlee: () => {}, // noop function
+    setResult: () => {},
+    setRoll: () => {},
+    setPosition: () => {},
+    removeItem: () => {},
+    }) 
 
 const MainContextProvider = (props: {children: ReactNode}) => {
 
     const [cards, setCards] = useState<MonsterType[]>([])
     const [allMonster, setAllMonster] = useState<MonsterType[]>([])
 
-    const [onMonster, setOnMonster] = useState<MonsterType>()
+    const [onMonster, setOnMonster] = useState<MonsterType>({
+        enemyName: "Mummy",
+        enemyIcon: "icons/mummy.png",
+        tier: "low",
+        cr: 6,
+        type: "undead",
+        isBoss: false,
+        baseDamage: 4,
+        minDamage: 2,
+        maxDamage: 5,
+        flee: 3,
+        description:
+            "Wrapped in rotting bandages and cursed with eternal unrest, mummies are guardians of long-forgotten tombs. Their curse is said to linger in the air for centuries after they fall.",
+        })
 
     const [items, setItems] = useState<ItemType[]>([])
     const [position, setPosition] = useState<number>(0)
 
     const [roll, setRoll] = useState<boolean>(false)
 
+    const [result, setResult] = useState<number>(0)
+    const [isFlee, setIsFlee] = useState<boolean>(false)
 
 
     useEffect(()=>{
@@ -70,8 +113,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         if(cards.length<1){
 
             if(allMonster.length > 0){
-                
-                
+
                 AddSuffle("low", false)
                 AddSuffle("low", true, 1)
                 AddSuffle("medium", false)
@@ -95,7 +137,18 @@ const MainContextProvider = (props: {children: ReactNode}) => {
     }
 
     return (
-        <MainContext.Provider value={{cards: cards, items:items, onMonster: onMonster,roll: roll,setRoll: setRoll, setPosition: HandlePosition, removeItem: HandleRemoveItem}}>
+        <MainContext.Provider value={{
+            cards: cards, 
+            items:items, 
+            onMonster: onMonster,
+            roll: roll, 
+            result: result,
+            isFlee: isFlee,
+            setIsFlee: setIsFlee, 
+            setResult: setResult, 
+            setRoll: setRoll, 
+            setPosition: HandlePosition, 
+            removeItem: HandleRemoveItem}}>
             {props.children}
         </MainContext.Provider>
     )
