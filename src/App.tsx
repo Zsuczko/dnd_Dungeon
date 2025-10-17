@@ -8,12 +8,12 @@ import { Slider } from "./components/ui/slider"
 
 const App = () => {
 
-
   const ctx = useContext(MainContext)
 
   const [openDialog, setOpenDialog] = useState<boolean>(false)
+  const [openDialogGameover, setOpenDialogGameover] = useState<boolean>(false)
 
-  const [isWin, setIswin] = useState<boolean>(false)
+  const [isWin, setIswin] = useState<boolean>(true)
 
   const [inspiration, setInspiration] = useState<boolean>(true)
 
@@ -65,11 +65,38 @@ const App = () => {
       }
     }
   }
+
+  useEffect(()=>{
+    if(ctx.hp < 1){
+      setOpenDialogGameover(true)
+    }
+    if(ctx.position >  ctx.cards.length){
+      setOpenDialogGameover(true)
+    }
+
+  }, [ctx.hp, ctx.position])
   
 
   return (
 
     <div className="relative w-screen h-screen overflow-hidden">
+
+
+    <Dialog open={openDialogGameover} onOpenChange={()=>{window.location.reload()}}>
+      <DialogContent>
+        <DialogHeader>
+
+        {ctx.hp < 1 ? 
+          <h1 className="text-4xl font bold"> Game over!</h1>: <></>
+        }
+
+        {ctx.position > ctx.cards.length? 
+        <h1 className="text-4xl font bold">You have won!!!</h1>: <></>
+        }
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+
 
       <Dialog open={openDialog} onOpenChange={()=>{setOpenDialog(false), ctx.setPosition(), HandleDamage()}}>
 
@@ -79,15 +106,17 @@ const App = () => {
             <h1 className="text-4xl font-bold w-full">
               {ctx.isFlee ?  
               (isWin ? "You have escaped from the monster": "The monster has damaged you") : 
-              (isWin ? "You have defeated the monster": "The monster has damaged you")}
+              (isWin ? "You have defeated the monster": 
+              `The monster has damaged you ${ctx.result === ctx.onMonster?.cr - 1? ctx.onMonster.minDamage: (ctx.result === 1? ctx.onMonster.maxDamage: ctx.onMonster.baseDamage)} hp`
+              )}
               </h1>
           </DialogHeader>
             <p className="text-5xl">{ctx.result}</p>
-            <DialogFooter>
+            <DialogFooter className="w-full flex justify-between gap-10">
               {inspiration && !isWin ? 
-              <div>
-                <p>Wanna reroll from inspiration?</p>
-                <Button onClick={()=>{setOpenDialog(false), setInspiration(false)}}>Reroll</Button>
+              <div className="flex items-center gap-2">
+                <p className="text-lg">Wanna reroll from inspiration?</p>
+                <Button className="text-lg p-6" onClick={()=>{setOpenDialog(false), setInspiration(false)}}>Reroll</Button>
               </div>:<></>
               }
               <DialogClose>
@@ -98,7 +127,7 @@ const App = () => {
       </Dialog>
       
       <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2">
-        <div className="flex flex-col gap-10 items-center">
+        <div className="flex flex-col gap-10 items-center cardWrapper">
           {/* {ctx.onMonster.isBoss? 
           <h1 className="text-2xl font-bold">Boss</h1>: <></>} */}
           <Card></Card>

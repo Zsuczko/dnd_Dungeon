@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
+import { createContext, useEffect, useState, type ReactNode } from "react"
 
 export type MonsterType = {
     enemyName: string;
@@ -140,7 +140,9 @@ const MainContextProvider = (props: {children: ReactNode}) => {
     const HandlePosition = () =>{
 
         setPosition(position+1)
-        setOnMonster(cards[position])
+        if(position < cards.length){
+            setOnMonster(cards[position])
+        }
     }
 
     const HandleRemoveItem = (i:number) =>{
