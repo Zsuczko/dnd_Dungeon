@@ -1,18 +1,28 @@
+import { useContext, useEffect } from "react"
 import Card from "./components/Card"
 import DiceRoller from "./components/DiceRoll"
-import MainContextProvider from "./datas/MainContext"
+import { MainContext } from "./datas/MainContext"
 
 const App = () => {
+
+
+  const ctx = useContext(MainContext)
+
+
+  useEffect(()=>{
+    console.log(ctx?.cards)
+    ctx?.setPosition()
+  },[ctx?.cards])
+
   return (
-    <MainContextProvider>
 
     <div>
       
       <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2">
         <div className="flex flex-col gap-10 items-center">
           <Card></Card>
-          <button className="text-5xl border-2 w-fit p-3 rounded-2xl">Fight</button>
-          <button className="text-5xl border-2 w-fit p-3 rounded-2xl">Flee: 7</button>
+          <button className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true)}}>Fight</button>
+          <button className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true)}}>Flee: {ctx?.onMonster?.flee}</button>
         </div>
       </div>
 
@@ -37,7 +47,6 @@ const App = () => {
         Cards
       </div>
     </div>
-    </MainContextProvider>
   )
 }
 

@@ -1,6 +1,7 @@
 // src/components/DiceRoller.tsx
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import DiceBox from "@3d-dice/dice-box";
+import { MainContext } from "../datas/MainContext";
 
 // Temporary type declaration so TS stops complaining
 declare module "@3d-dice/dice-box";
@@ -19,6 +20,8 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
 
   const [first, setFirst] = useState<boolean>(true)
 
+  const ctx = useContext(MainContext)
+
   useEffect(() => {
     if(first) {
 
@@ -26,7 +29,7 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
             assetPath: "/assets/dice-box/", 
             theme: "default",
             Offscreen: true,
-            scale: 17,
+            scale: 20,
         });
         boxRef.current = box;
         
@@ -51,13 +54,20 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
     boxRef.current.roll(toRoll);
   };
 
+  useEffect(()=>{
+    if (ctx?.roll === true){
+      rollDice(["1d20"])
+      ctx.setRoll(false)
+    }
+  },[ctx?.roll])
+
   return (
     <div >
     <div
     className="border-2 border-black w-[25em] h-[15em]"
         id="dice-box"
         
-        onClick={() => rollDice(["1d20", "1d4"])}
+        // onClick={() => rollDice(["1d20"])}
     />
     </div>
     );
