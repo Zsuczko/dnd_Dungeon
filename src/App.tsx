@@ -20,18 +20,20 @@ const App = () => {
 
 
   useEffect(()=>{
-    console.log(ctx?.cards)
+    console.log(ctx?.items)
     ctx?.setPosition()
   },[ctx?.cards])
 
 
   useEffect(()=>{
 
+
     if(ctx?.result !== 0){
 
-
       if(ctx?.isFlee){
-        if(ctx.result >= ctx.onMonster?.flee){
+
+
+        if(ctx.result + ctx.usedItem.flee_measure >= ctx.onMonster?.flee){
           setIswin(true)
         }
         else{
@@ -39,7 +41,8 @@ const App = () => {
         }
       }
       else{
-        if(ctx.result>= ctx.onMonster.cr){
+        if(ctx.result+ ctx.usedItem.attack_measure >= ctx.onMonster.cr){
+          ctx.addItem()
           setIswin(true)
         }
         else{
@@ -65,6 +68,11 @@ const App = () => {
         ctx.setHp(ctx.hp - ctx.onMonster.baseDamage)
       }
     }
+  }
+
+
+  const useItem = (idx: number) =>{
+    ctx.removeItem(idx)
   }
 
   useEffect(()=>{
@@ -112,7 +120,11 @@ const App = () => {
               )}
               </h1>
           </DialogHeader>
-            <p className="text-5xl">{ctx.result}</p>
+            <p className="text-5xl">
+              {ctx.result}
+              {ctx.usedItem.attack_measure !== 0 && !ctx.isFlee? <span>+{ctx.usedItem.attack_measure}</span>: <></>}  
+              {ctx.usedItem.flee_measure !== 0 && ctx.isFlee? <span>+{ctx.usedItem.flee_measure}</span>: <></>}  
+            </p>
             <DialogFooter className="w-full flex justify-between gap-10">
               {inspiration && !isWin ? 
               <div className="flex items-center gap-2">
@@ -177,8 +189,29 @@ const App = () => {
         }
       </div>
 
-      <div className="border-2 border-black absolute top-[50%] left-[15%] -translate-x-1/2 -translate-y-1/2 w-[25em] h-[25em] rounded-2xl flex justify-center items-center">
-        BackBack
+      <div className="border-2 border-black absolute top-[50%] left-[15%] -translate-x-1/2 -translate-y-1/2 w-[25em] h-[25em] rounded-2xl p-10">
+        <div className="grid grid-cols-4">
+          {ctx.items.map((item, idx) => {
+            return    <HoverCard>
+                  <HoverCardTrigger>
+                    <p onClick={()=>{useItem(idx)}}>{item.itemName}</p> 
+                  </HoverCardTrigger>
+                  <HoverCardContent className="cursor-pointer">
+                    <p >
+                      {item.heal_measure!== 0?
+                      <p>Heal: {item.heal_measure}</p>:<></>
+                      }
+                      {item.attack_measure!== 0?
+                      <p>Attack: {item.attack_measure}</p>:<></>
+                      }
+                      {item.flee_measure!== 0?
+                      <p>Flee: {item.flee_measure}</p>:<></>
+                      }
+                    </p>
+                  </HoverCardContent>
+                </HoverCard>;
+          })}
+        </div>
       </div>
 
       <div className=" absolute top-[20%] left-[80%] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">

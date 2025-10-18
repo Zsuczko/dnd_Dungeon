@@ -37,10 +37,26 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
             console.log("DiceBox ready");
             
             box.onRollComplete = (results: DiceResult[]) => {
+                // results.forEach(element => {
+                    
+                //     ctx?.setResult(element.value)
+                // });
+
+                
+              console.log(ctx.usedItem.givesAdvantage)
+
+              if(!ctx.usedItem.givesAdvantage){
+                ctx?.setResult(results[0].value)
+              }
+              else{
+                const dobasok: number[] = []
                 results.forEach(element => {
                     
-                    ctx?.setResult(element.value)
-                });
+                    dobasok.push(element.value)
+                });             
+                ctx.setResult(dobasok.sort()[1])
+              }
+
             };
         });
         setFirst(false)
@@ -56,8 +72,17 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
 
   useEffect(()=>{
     if (ctx?.roll === true){
-      rollDice(["1d20"])
-      ctx.setRoll(false)
+
+      if(!ctx.usedItem.givesAdvantage){
+
+        rollDice(["1d20"])
+        ctx.setRoll(false)
+      }
+      else{
+        console.log("jó")
+        rollDice(["1d20", "1d20"])
+        ctx.setRoll(false)
+      }
     }
   },[ctx?.roll])
 
@@ -67,7 +92,7 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
     className="border-2 border-black w-[25em] h-[15em]"
         id="dice-box"
         
-        // onClick={() => rollDice(["1d20"])}
+        // onClick={() => rollDice(["1d20", "1d20"])}
     />
     </div>
     );
