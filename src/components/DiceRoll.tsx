@@ -29,7 +29,7 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
             assetPath: "/assets/dice-box/", 
             theme: "default",
             Offscreen: true,
-            scale: 20,
+            scale: 17,
         });
         boxRef.current = box;
         
