@@ -6,6 +6,7 @@ import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader } from "
 import { Button } from "./components/ui/button"
 import { Slider } from "./components/ui/slider"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./components/ui/hover-card"
+import { toast } from "sonner"
 
 const App = () => {
 
@@ -17,6 +18,9 @@ const App = () => {
   const [isWin, setIswin] = useState<boolean>(true)
 
   const [inspiration, setInspiration] = useState<boolean>(true)
+
+  const [usedItemOnce, setUsedItemOnce] = useState<boolean>(false)
+
 
 
   useEffect(()=>{
@@ -71,8 +75,14 @@ const App = () => {
   }
 
 
-  const useItem = (idx: number) =>{
-    ctx.removeItem(idx)
+  const useItem = (name: string) =>{
+    if(!usedItemOnce){
+      ctx.removeItem(name)
+      setUsedItemOnce(true)
+    }
+    else{
+      toast.error("You have already used an item this round")
+    }
   }
 
   useEffect(()=>{
@@ -84,6 +94,16 @@ const App = () => {
     }
 
   }, [ctx.hp, ctx.position])
+
+  function groupBy<T, K extends keyof any>(array: T[], getKey: (item: T) => K): Record<K, T[]> {
+    return array.reduce((acc, item) => {
+      const key = getKey(item);
+      (acc[key] ||= []).push(item);
+      return acc;
+    }, {} as Record<K, T[]>);
+  }
+
+  const groupedItem = groupBy(ctx.items, item=>item.itemName)
   
 
   return (
@@ -107,7 +127,7 @@ const App = () => {
     </Dialog>
 
 
-      <Dialog open={openDialog} onOpenChange={()=>{setOpenDialog(false), ctx.setPosition(), HandleDamage()}}>
+      <Dialog open={openDialog} onOpenChange={()=>{setOpenDialog(false), ctx.setPosition(), HandleDamage(), setUsedItemOnce(false)}}>
 
 
         <DialogContent className="w-fit bg-white">
@@ -128,11 +148,9 @@ const App = () => {
             <DialogFooter className="w-full flex justify-between gap-10">
               {inspiration && !isWin ? 
               <div className="flex items-center gap-2">
-                {/* <p className="text-lg">Wanna reroll from inspiration?</p> */}
-
                 <HoverCard>
                   <HoverCardTrigger>
-                    <Button className="p-0 h-20 w-20" variant={"ghost"} onClick={()=>{setOpenDialog(false), setInspiration(false)}}>
+                    <Button className="p-0 h-20 w-20" variant={"ghost"} onClick={()=>{setOpenDialog(false), setInspiration(false), setUsedItemOnce(false)}}>
                       <img src="/inspiration.png" alt="" className="size-20" />
                     </Button>
                   </HoverCardTrigger>
@@ -191,21 +209,27 @@ const App = () => {
 
       <div className="border-2 border-black absolute top-[50%] left-[15%] -translate-x-1/2 -translate-y-1/2 w-[25em] h-[25em] rounded-2xl p-10">
         <div className="grid grid-cols-4">
-          {ctx.items.map((item, idx) => {
+           {Object.entries(groupedItem).map(([name, group]) => {
             return    <HoverCard>
                   <HoverCardTrigger>
-                    <p onClick={()=>{useItem(idx)}}>{item.itemName}</p> 
+                    {/* <p onClick={()=>{useItem(idx)}}>{item.itemName}</p>  */}
+                    <div className="relative inline-block" onClick={()=>{useItem(name)}}>
+                      <p className=" px-3 py-1 rounded">{name}</p>
+                      <span className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 text-xs rounded-full px-1">
+                        {group.length}
+                      </span>
+                    </div>
                   </HoverCardTrigger>
                   <HoverCardContent className="cursor-pointer">
                     <p >
-                      {item.heal_measure!== 0?
-                      <p>Heal: {item.heal_measure}</p>:<></>
+                      {group[0].heal_measure!== 0?
+                      <p>Heal: {group[0].heal_measure}</p>:<></>
                       }
-                      {item.attack_measure!== 0?
-                      <p>Attack: {item.attack_measure}</p>:<></>
+                      {group[0].attack_measure!== 0?
+                      <p>Attack: {group[0].attack_measure}</p>:<></>
                       }
-                      {item.flee_measure!== 0?
-                      <p>Flee: {item.flee_measure}</p>:<></>
+                      {group[0].flee_measure!== 0?
+                      <p>Flee: {group[0].flee_measure}</p>:<></>
                       }
                     </p>
                   </HoverCardContent>

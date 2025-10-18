@@ -45,7 +45,7 @@ type MainContextType ={
     setRoll: (r: boolean)=> void,
     setPosition: () => void,
     addItem: () =>void,
-    removeItem: (i: number) => void
+    removeItem: (i: string) => void
 }
 
 
@@ -149,7 +149,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         flee_measure: 0,
         heal_measure: 0,
         isBossOnly: false,
-        givesAdvantage: true,
+        givesAdvantage: false,
         })
    
     const [position, setPosition] = useState<number>(-1)
@@ -228,7 +228,9 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         }
     }
 
-    const HandleRemoveItem = async (i:number) =>{
+    const HandleRemoveItem = async (name:string) =>{
+
+        const i = userItems.findIndex(item => item.itemName === name);
         const item = userItems[i];
         setUsedItem(item);
         setHp(Hp +item.heal_measure); 
