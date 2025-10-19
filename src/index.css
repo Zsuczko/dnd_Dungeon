@@ -5,7 +5,7 @@
 
 #dice-box > canvas {
     position: absolute;
-    width: 25em;
+    width: 30em;
     height: 15em;
     padding: 1em;
 }

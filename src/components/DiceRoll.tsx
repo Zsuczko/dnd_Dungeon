@@ -89,7 +89,7 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
   return (
     <div >
     <div
-    className="border-2 border-black w-[25em] h-[15em]"
+    className="border-2 border-black w-[30em] h-[15em]"
         id="dice-box"
         
         // onClick={() => rollDice(["1d20", "1d20"])}

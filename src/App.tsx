@@ -30,13 +30,9 @@ const App = () => {
 
 
   useEffect(()=>{
-
-
     if(ctx?.result !== 0){
 
       if(ctx?.isFlee){
-
-
         if(ctx.result + ctx.usedItem.flee_measure >= ctx.onMonster?.flee){
           setIswin(true)
         }
@@ -62,15 +58,17 @@ const App = () => {
 
   const HandleDamage = () =>{
     if(!isWin){
-      if(ctx.result === ctx.onMonster.cr -1){
-        ctx.setHp(ctx.hp - ctx.onMonster.minDamage)
+      if(!ctx.isFlee){
+        if(ctx.result === ctx.onMonster.cr -1){
+          ctx.setHp(ctx.hp - ctx.onMonster.minDamage)
+        }
       }
-      else if(ctx.result === 1){
-        ctx.setHp(ctx.hp - ctx.onMonster.maxDamage)
-      }
-      else{
-        ctx.setHp(ctx.hp - ctx.onMonster.baseDamage)
-      }
+      if(ctx.result === 1){
+          ctx.setHp(ctx.hp - ctx.onMonster.maxDamage)
+        }
+        else{
+          ctx.setHp(ctx.hp - ctx.onMonster.baseDamage)
+        }
     }
   }
 
@@ -104,13 +102,20 @@ const App = () => {
   }
 
   const groupedItem = groupBy(ctx.items, item=>item.itemName)
+
+
+  const HandelDialogClose = () =>{
+
+    setOpenDialog(false) 
+    if (isWin || !ctx.isFlee){
+      ctx.setPosition() 
+    }
+    setUsedItemOnce(false)
+  }
   
 
   return (
-
     <div className="relative w-screen h-screen overflow-hidden">
-
-
     <Dialog open={openDialogGameover} onOpenChange={()=>{window.location.reload()}}>
       <DialogContent>
         <DialogHeader>
@@ -127,14 +132,15 @@ const App = () => {
     </Dialog>
 
 
-      <Dialog open={openDialog} onOpenChange={()=>{setOpenDialog(false), ctx.setPosition(), HandleDamage(), setUsedItemOnce(false)}}>
+      <Dialog open={openDialog} onOpenChange={()=>{HandelDialogClose(), HandleDamage()}}>
 
 
         <DialogContent className="w-fit bg-white">
           <DialogHeader>
             <h1 className="text-4xl font-bold w-full">
               {ctx.isFlee ?  
-              (isWin ? "You have escaped from the monster": "The monster has damaged you") : 
+              (isWin ? "You have escaped from the monster": 
+                `You couldn't escape. The monster has damaged you ${ctx.result === 1? ctx.onMonster.maxDamage: ctx.onMonster.baseDamage} hp`) : 
               (isWin ? "You have defeated the monster": 
               `The monster has damaged you ${ctx.result === ctx.onMonster?.cr - 1? ctx.onMonster.minDamage: (ctx.result === 1? ctx.onMonster.maxDamage: ctx.onMonster.baseDamage)} hp`
               )}
