@@ -21,6 +21,8 @@ const App = () => {
 
   const [usedItemOnce, setUsedItemOnce] = useState<boolean>(false)
 
+  const [rolled, setRolled] = useState<boolean>(false)
+
 
 
   useEffect(()=>{
@@ -62,14 +64,21 @@ const App = () => {
         if(ctx.result === ctx.onMonster.cr -1){
           ctx.setHp(ctx.hp - ctx.onMonster.minDamage)
         }
-      }
-      if(ctx.result === 1){
+        if(ctx.result === 1){
           ctx.setHp(ctx.hp - ctx.onMonster.maxDamage)
         }
         else{
-          console.log(ctx.hp - ctx.onMonster.baseDamage)
           ctx.setHp(ctx.hp - ctx.onMonster.baseDamage)
         }
+      }
+      else{
+         if(ctx.result === 1){
+          ctx.setHp(ctx.hp - ctx.onMonster.maxDamage)
+        }
+        else{
+          ctx.setHp(ctx.hp - ctx.onMonster.baseDamage)
+        }
+      }
     }
   }
 
@@ -107,7 +116,8 @@ const App = () => {
 
   const HandelDialogClose = () =>{
 
-    setOpenDialog(false) 
+    setOpenDialog(false)
+    setRolled(false) 
     if (isWin || !ctx.isFlee){
       ctx.setPosition() 
     }
@@ -157,7 +167,7 @@ const App = () => {
               <div className="flex items-center gap-2">
                 <HoverCard>
                   <HoverCardTrigger>
-                    <Button className="p-0 h-20 w-20" variant={"ghost"} onClick={()=>{setOpenDialog(false), setInspiration(false), setUsedItemOnce(false)}}>
+                    <Button className="p-0 h-20 w-20" variant={"ghost"} onClick={()=>{setOpenDialog(false), setInspiration(false), setUsedItemOnce(false), setRolled(false)}}>
                       <img src="/inspiration.png" alt="" className="size-20" />
                     </Button>
                   </HoverCardTrigger>
@@ -182,8 +192,8 @@ const App = () => {
       <div className="absolute top-[52%] left-[50%] -translate-x-1/2 -translate-y-1/2">
         <div className="flex flex-col gap-10 items-center cardWrapper">
           <Card></Card>
-          <button className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(false)}}>Fight</button>
-          <button className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(true)}}>Flee: {ctx?.onMonster?.flee}</button>
+          <button disabled={rolled} className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(false), setRolled(true)}}>Fight</button>
+          <button disabled={rolled} className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(true), setRolled(true)}}>Flee: {ctx?.onMonster?.flee}</button>
         </div>
       </div>
 
