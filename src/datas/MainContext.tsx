@@ -16,6 +16,7 @@ export type MonsterType = {
 
 export type ItemType ={
   itemName: string;
+  itemIcon: string,
   tier: "low" | "medium" | "high"; 
   rarity: "common" | "rare" | "epic" | "legendary"; 
   type: "consumable";
@@ -54,6 +55,7 @@ export const MainContext = createContext<MainContextType>({
     items: [],
     onItem: {
         itemName: "",
+        itemIcon: "",
         tier: "low",
         rarity: "common",
         type: "consumable",
@@ -65,6 +67,7 @@ export const MainContext = createContext<MainContextType>({
     },
     usedItem: {
         itemName: "",
+        itemIcon: "",
         tier: "low",
         rarity: "common",
         type: "consumable",
@@ -131,6 +134,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
     const [allItems, setAllItems] = useState<ItemType[]>([])
     const [onItem, setOnItem] = useState<ItemType>({
         itemName: "",
+        itemIcon: "",
         tier: "low",
         rarity: "common",
         type: "consumable",
@@ -142,6 +146,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         })
     const [usedItem, setUsedItem] = useState<ItemType>({
         itemName: "",
+        itemIcon: "",
         tier: "low",
         rarity: "common",
         type: "consumable",
@@ -175,6 +180,18 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         
     },[])
 
+    const HandleSetHp = (n: number)=>{
+        if(n > maxHp){
+            setHp(maxHp)
+        }
+        else if(n < 0){
+            setHp(0)
+        }
+        else{
+            setHp(n)
+        }
+    }
+
 
     const AddSuffle = (rarity: string, isboss: boolean = false, howmany: number = 5) =>{
 
@@ -196,7 +213,6 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         if(cards.length<1){
 
             if(allMonster.length > 0){
-
                 AddSuffle("low")
                 AddSuffle("low", true, 1)
                 AddSuffle("medium")
@@ -214,6 +230,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         setPosition(position+1)
         if(position < cards.length){
             setUsedItem({  itemName: "",
+                itemIcon: "",
                 tier: "low",
                 rarity: "common",
                 type: "consumable",
@@ -230,11 +247,16 @@ const MainContextProvider = (props: {children: ReactNode}) => {
 
     const HandleRemoveItem = async (name:string) =>{
 
-        const i = userItems.findIndex(item => item.itemName === name);
-        const item = userItems[i];
+        // const i = userItems.findIndex(item => item.itemName === name);
+        console.log(name)
+        const i = [...userItems].reverse().findIndex(item => item.itemName === name);
+
+        if (i === -1) return; 
+        const realIndex = userItems.length - 1 - i;
+        const item = userItems[realIndex];
         setUsedItem(item);
-        setHp(Hp +item.heal_measure); 
-        setUserItems(prev => prev.filter((_, id) => id !== i))
+        HandleSetHp(Hp +item.heal_measure); 
+        setUserItems(prev => prev.filter((_, id) => id !== realIndex))
     }
 
     const HandleAddItem = ()=>{
@@ -254,7 +276,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
             isFlee: isFlee,
             maxHp: maxHp,
             hp: Hp,
-            setHp: setHp,
+            setHp: HandleSetHp,
             setIsFlee: setIsFlee, 
             setResult: setResult, 
             setRoll: setRoll, 

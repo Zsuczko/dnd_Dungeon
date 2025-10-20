@@ -27,7 +27,7 @@ const Card = () => {
         </p>
         <p className='text-3xl font-bold'>{ctx?.onMonster?.enemyName}</p>
         <p className='text-5xl'>{ctx?.onMonster?.cr}</p>
-        <p>Reward: {ctx.onItem?.itemName}</p>
+        <p><img src={ctx.onItem?.itemIcon} className="size-15 border-2 rounded-[50%] border-[#FFD700] bg-[#fcfba585] p-1" /></p>
       </div>
       <div className="back p-6 text-white border-2 border-black flex justify-center flex-col items-center gap-1 w-fit rounded-2xl h-[23em]">
         <p>Damage: {ctx?.onMonster?.minDamage} - {ctx?.onMonster?.maxDamage}</p>

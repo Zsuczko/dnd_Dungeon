@@ -1,19 +1,9 @@
 [
     {
         "itemName":"Potion of Healing",
+        "itemIcon": "potions/heal1.png",
         "tier": "low",
         "rarity": "common",
-        "type": "consumable",
-        "attack_measure": 0,
-        "flee_measure": 0,
-        "heal_measure": 1,
-        "isBossOnly": false,
-        "givesAdvantage": false
-    },
-    {
-        "itemName":"Potion of Greater Healing",
-        "tier": "medium",
-        "rarity": "rare",
         "type": "consumable",
         "attack_measure": 0,
         "flee_measure": 0,
@@ -22,33 +12,35 @@
         "givesAdvantage": false
     },
     {
+        "itemName":"Potion of Greater Healing",
+        "itemIcon": "potions/heal2.png",
+        "tier": "medium",
+        "rarity": "rare",
+        "type": "consumable",
+        "attack_measure": 0,
+        "flee_measure": 0,
+        "heal_measure": 4,
+        "isBossOnly": false,
+        "givesAdvantage": false
+    },
+    {
         "itemName":"Potion of Superior Healing",
+        "itemIcon": "potions/heal3.png",
         "tier": "high",
         "rarity": "epic",
         "type": "consumable",
         "attack_measure": 0,
         "flee_measure": 0,
-        "heal_measure": 3,
+        "heal_measure": 6,
         "isBossOnly": false,
         "givesAdvantage": false
     },
     {
-        "itemName":"Potion of Supreme Healing",
-        "tier": "high",
-        "rarity": "legendary",
-        "type": "consumable",
-        "attack_measure": 0,
-        "flee_measure": 0,
-        "heal_measure": 4,
-        "isBossOnly": true,
-        "givesAdvantage": false
-    },
-    {
         "itemName": "Potion of Hill Giant Strength",
+        "itemIcon": "potions/attack1.png",
         "tier": "low",
         "rarity": "common",
         "type": "consumable",
-        "effect": "attack",
         "attack_measure": 1,
         "flee_measure": -1,
         "heal_measure": 0,
@@ -57,6 +49,7 @@
     },
     {
         "itemName": "Potion of Frost Giant Strength",
+        "itemIcon": "potions/attack2.png",
         "tier": "medium",
         "rarity": "rare",
         "type": "consumable",
@@ -68,6 +61,7 @@
     },
     {
         "itemName": "Potion of Fire Giant Strength",
+        "itemIcon": "potions/attack2.png",
         "tier": "medium",
         "rarity": "rare",
         "type": "consumable",
@@ -79,6 +73,7 @@
     },
     {
         "itemName": "Potion of Cloud Giant Strength",
+        "itemIcon": "potions/attack3.png",
         "tier": "high",
         "rarity": "epic",
         "type": "consumable",
@@ -90,6 +85,7 @@
     },
     {
         "itemName": "Potion of Storm Giant Strength",
+        "itemIcon": "potions/attack4.png",
         "tier": "high",
         "rarity": "legendary",
         "type": "consumable",
@@ -101,6 +97,7 @@
     },
     {
         "itemName": "Potion of Swiftness",
+        "itemIcon": "potions/flee1.png",
         "tier": "medium",
         "rarity": "rare",
         "type": "consumable",
@@ -112,6 +109,7 @@
     },
     {
         "itemName": "Potion of Invisibility",
+        "itemIcon": "potions/flee2.png",
         "tier": "high",
         "rarity": "legendary",
         "type": "consumable",

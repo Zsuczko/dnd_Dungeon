@@ -67,6 +67,7 @@ const App = () => {
           ctx.setHp(ctx.hp - ctx.onMonster.maxDamage)
         }
         else{
+          console.log(ctx.hp - ctx.onMonster.baseDamage)
           ctx.setHp(ctx.hp - ctx.onMonster.baseDamage)
         }
     }
@@ -213,20 +214,23 @@ const App = () => {
         }
       </div>
 
-      <div className="border-2 border-black absolute top-[50%] left-[15%] -translate-x-1/2 -translate-y-1/2 w-[25em] h-[25em] rounded-2xl p-10">
+      <div className="border-2 border-black absolute top-[50%] left-[15%] -translate-x-1/2 -translate-y-1/2 w-[25em] h-[25em] rounded-2xl p-5">
         <div className="grid grid-cols-4">
            {Object.entries(groupedItem).map(([name, group]) => {
             return    <HoverCard>
                   <HoverCardTrigger>
                     {/* <p onClick={()=>{useItem(idx)}}>{item.itemName}</p>  */}
                     <div className="relative inline-block" onClick={()=>{useItem(name)}}>
-                      <p className=" px-3 py-1 rounded">{name}</p>
+                      <p className=" px-3 py-1 w-24 h-24">
+                        <img src={group[0].itemIcon} alt="" className="size-16 border-2 rounded-[50%] border-[#FFD700] bg-[#fcfba585] p-1"/>
+                      </p>
                       <span className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 text-xs rounded-full px-1">
                         {group.length}
                       </span>
                     </div>
                   </HoverCardTrigger>
                   <HoverCardContent className="cursor-pointer">
+                    <p>{name}</p>
                     <p >
                       {group[0].heal_measure!== 0?
                       <p>Heal: {group[0].heal_measure}</p>:<></>
