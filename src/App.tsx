@@ -244,7 +244,9 @@ const App = () => {
           <Card></Card>
           {/* setRolled(true) */}
           <button  className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(false)}}>Fight</button>
-          <button disabled={ctx.onMonster?.isBoss} className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(true)}}>Flee: {ctx?.onMonster?.flee}</button>
+          {!ctx.onMonster?.isBoss && 
+          <button className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(true)}}>Flee: {ctx?.onMonster?.flee}</button>
+          }
         </div>
       </div>
 
