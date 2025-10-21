@@ -217,7 +217,7 @@ const App = () => {
                 <HoverCard>
                   <HoverCardTrigger>
                   {/* setUsedItemOnce(false), setRolled(false), */}
-                    <Button className="p-0 h-20 w-20" variant={"ghost"} onClick={()=>{setOpenDialog(false), ctx.setInspirtaion(false), characterCtx.setToDefault()}}>
+                    <Button className="p-0 h-20 w-20" variant={"ghost"} onClick={()=>{setOpenDialog(false), ctx.setInspirtaion(false), characterCtx.setToDefault(), ctx.setUsedItem([])}}>
                       <img src="/inspiration.png" alt="" className="size-20" />
                     </Button>
                   </HoverCardTrigger>
@@ -244,7 +244,7 @@ const App = () => {
           <Card></Card>
           {/* setRolled(true) */}
           <button  className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(false)}}>Fight</button>
-          <button className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(true)}}>Flee: {ctx?.onMonster?.flee}</button>
+          <button disabled={ctx.onMonster?.isBoss} className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(true)}}>Flee: {ctx?.onMonster?.flee}</button>
         </div>
       </div>
 

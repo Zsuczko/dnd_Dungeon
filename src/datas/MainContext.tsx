@@ -41,6 +41,7 @@ type MainContextType ={
     maxHp: number,
     hp: number,
     inspiration: boolean,
+    setUsedItem: (l: PotiType[]) => void,
     setInspirtaion: (b: boolean) => void,
     setHp: (h: number)=>void,
     setIsFlee: (f: boolean)=> void,
@@ -87,6 +88,7 @@ export const MainContext = createContext<MainContextType>({
     maxHp: 10,
     hp: 10,
     inspiration: true,
+    setUsedItem: ()=>{},
     setInspirtaion: ()=>{},
     setHp: ()=> {},
     setIsFlee: () => {}, // noop function
@@ -359,6 +361,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
             maxHp: maxHp,
             hp: Hp,
             inspiration,
+            setUsedItem,
             setInspirtaion: setInspiration,
             setHp: HandleSetHp,
             setIsFlee: setIsFlee, 
