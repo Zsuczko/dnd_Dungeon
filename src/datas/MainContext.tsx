@@ -1,4 +1,5 @@
-import { createContext, useEffect, useState, type ReactNode } from "react"
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
+import { CharacterContext } from "./CharacterContext";
 
 export type MonsterType = {
     enemyName: string;
@@ -14,25 +15,24 @@ export type MonsterType = {
     description: string;
 }
 
-export type ItemType ={
+export type PotiType ={
   itemName: string;
-  itemIcon: string,
-  tier: "low" | "medium" | "high"; 
-  rarity: "common" | "rare" | "epic" | "legendary"; 
-  type: "consumable";
-  attack_measure: number;
-  flee_measure: number;
-  heal_measure: number;
-  isBossOnly: boolean;
-  givesAdvantage: boolean;
+  itemIcon: string;
+  tier: string;
+  rarity: string;
+  type: string;
+  effect: string;
+  drawback: string;
+  description: string;
+  measure: number;
 
 }
 
 type MainContextType ={
     cards: MonsterType[],
-    items: ItemType[],
-    onItem: ItemType,
-    usedItem: ItemType,
+    items: PotiType[],
+    onItem: PotiType,
+    usedItem: PotiType,
     onMonster: MonsterType,
     position: number,
     roll: boolean,
@@ -56,26 +56,24 @@ export const MainContext = createContext<MainContextType>({
     onItem: {
         itemName: "",
         itemIcon: "",
-        tier: "low",
-        rarity: "common",
-        type: "consumable",
-        attack_measure: 0,
-        flee_measure: 0,
-        heal_measure: 0,
-        isBossOnly: false,  
-        givesAdvantage: false,
+        tier: "",
+        rarity: "",
+        type: "",
+        effect: "",
+        drawback: "",
+        description: "",
+        measure: 0,
     },
     usedItem: {
         itemName: "",
         itemIcon: "",
-        tier: "low",
-        rarity: "common",
-        type: "consumable",
-        attack_measure: 0,
-        flee_measure: 0,
-        heal_measure: 0,
-        isBossOnly: false,  
-        givesAdvantage: false,
+        tier: "",
+        rarity: "",
+        type: "",
+        effect: "",
+        drawback: "",
+        description: "",
+        measure: 0,
     },
     onMonster: {
         enemyName: "",
@@ -111,6 +109,8 @@ function getRndInteger(min:number, max:number) {
 
 const MainContextProvider = (props: {children: ReactNode}) => {
 
+    const character = useContext(CharacterContext)
+
     const [cards, setCards] = useState<MonsterType[]>([])
     const [allMonster, setAllMonster] = useState<MonsterType[]>([])
 
@@ -129,32 +129,30 @@ const MainContextProvider = (props: {children: ReactNode}) => {
             "Wrapped in rotting bandages and cursed with eternal unrest, mummies are guardians of long-forgotten tombs. Their curse is said to linger in the air for centuries after they fall.",
         })
 
-    const [items, setItems] = useState<ItemType[]>([])
-    const [userItems, setUserItems] = useState<ItemType[]>([])
-    const [allItems, setAllItems] = useState<ItemType[]>([])
-    const [onItem, setOnItem] = useState<ItemType>({
+    const [items, setItems] = useState<PotiType[]>([])
+    const [userItems, setUserItems] = useState<PotiType[]>([])
+    const [allItems, setAllItems] = useState<PotiType[]>([])
+    const [onItem, setOnItem] = useState<PotiType>({
         itemName: "",
         itemIcon: "",
-        tier: "low",
-        rarity: "common",
-        type: "consumable",
-        attack_measure: 0,
-        flee_measure: 0,
-        heal_measure: 0,
-        isBossOnly: false,
-        givesAdvantage: false,
+        tier: "",
+        rarity: "",
+        type: "",
+        effect: "",
+        drawback: "",
+        description: "",
+        measure: 0,
         })
-    const [usedItem, setUsedItem] = useState<ItemType>({
+    const [usedItem, setUsedItem] = useState<PotiType>({
         itemName: "",
         itemIcon: "",
-        tier: "low",
-        rarity: "common",
-        type: "consumable",
-        attack_measure: 0,
-        flee_measure: 0,
-        heal_measure: 0,
-        isBossOnly: false,
-        givesAdvantage: false,
+        tier: "",
+        rarity: "",
+        type: "",
+        effect: "",
+        drawback: "",
+        description: "",
+        measure: 0,
         })
    
     const [position, setPosition] = useState<number>(-1)
@@ -174,21 +172,27 @@ const MainContextProvider = (props: {children: ReactNode}) => {
            setAllMonster(item)
         )
 
-        fetch("/items.json").then(res => res.json()).then(data =>{
+        fetch("/poti.json").then(res => res.json()).then(data =>{
             setAllItems(data)
         })
         
     },[])
 
     const HandleSetHp = (n: number)=>{
-        if(n > maxHp){
+
+        let newNum = n
+
+        if (character.resistance)
+            newNum = Math.floor(newNum/ 2)
+
+        if(Hp + n > maxHp){
             setHp(maxHp)
         }
-        else if(n < 0){
+        else if(Hp + newNum < 0){
             setHp(0)
         }
         else{
-            setHp(n)
+            setHp(Hp+ newNum)
         }
     }
 
@@ -229,25 +233,25 @@ const MainContextProvider = (props: {children: ReactNode}) => {
 
         setPosition(position+1)
         if(position < cards.length){
-            setUsedItem({  itemName: "",
+            setUsedItem({         
+                itemName: "",
                 itemIcon: "",
-                tier: "low",
-                rarity: "common",
-                type: "consumable",
-                attack_measure: 0,
-                flee_measure: 0,
-                heal_measure: 0,
-                isBossOnly: false,
-                givesAdvantage: false,
+                tier: "",
+                rarity: "",
+                type: "",
+                effect: "",
+                drawback: "",
+                description: "",
+                measure: 0,
                 })
             setOnMonster(cards[position])
             setOnItem(items[position])
+            console.log(onItem)
         }
     }
 
     const HandleRemoveItem = async (name:string) =>{
 
-        // const i = userItems.findIndex(item => item.itemName === name);
         console.log(name)
         const i = [...userItems].reverse().findIndex(item => item.itemName === name);
 
@@ -255,12 +259,46 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         const realIndex = userItems.length - 1 - i;
         const item = userItems[realIndex];
         setUsedItem(item);
-        HandleSetHp(Hp +item.heal_measure); 
+
+        if(item.effect === "heal"){
+            HandleSetHp(Hp +item.measure);
+        }
+        if (item.effect === "maxHeal"){
+            HandleSetHp(maxHp);
+            character.setDisadvantage(true)
+        }
+        if(item.effect === "attack"){
+            character.setAttack(item.measure)
+            character.setPlusDmg(true)
+        }
+        if(item.effect === "flee"){
+            character.setFlee(item.measure)
+            character.setPlusDmg(true)
+        }
+        if(item.effect === "advantage"){
+            character.setAdvantage(true)
+        }
+        if(item.effect === "rewardPoti"){
+            character.setDoublePoti(true)
+        }
+        if(item.effect === "double"){
+            character.setDouble(true)
+            HandleSetHp(1)
+        }
+        if(item.effect === "inspiration")
+            console.log("jo")
+        if(item.effect === "resistance")
+            character.setResistance(true)
+        if(item.effect === "fullResistance")
+            character.setFullResistance(true)
+
         setUserItems(prev => prev.filter((_, id) => id !== realIndex))
     }
 
     const HandleAddItem = ()=>{
         setUserItems(prev=> [...prev, onItem])
+        if(character.doublePoti)
+            setUserItems(prev=> [...prev, onItem])
     }
 
     return (

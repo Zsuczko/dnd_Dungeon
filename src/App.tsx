@@ -7,10 +7,12 @@ import { Button } from "./components/ui/button"
 import { Slider } from "./components/ui/slider"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./components/ui/hover-card"
 import { toast } from "sonner"
+import { CharacterContext } from "./datas/CharacterContext"
 
 const App = () => {
 
   const ctx = useContext(MainContext)
+  const characterCtx  = useContext(CharacterContext)
 
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [openDialogGameover, setOpenDialogGameover] = useState<boolean>(false)
@@ -35,7 +37,7 @@ const App = () => {
     if(ctx?.result !== 0){
 
       if(ctx?.isFlee){
-        if(ctx.result + ctx.usedItem.flee_measure >= ctx.onMonster?.flee){
+        if(ctx.result + characterCtx.flee >= ctx.onMonster?.flee){
           setIswin(true)
         }
         else{
@@ -43,7 +45,7 @@ const App = () => {
         }
       }
       else{
-        if(ctx.result+ ctx.usedItem.attack_measure >= ctx.onMonster.cr){
+        if(ctx.result + characterCtx.attack >= ctx.onMonster.cr){
           ctx.addItem()
           setIswin(true)
         }
@@ -59,24 +61,24 @@ const App = () => {
 
 
   const HandleDamage = () =>{
-    if(!isWin){
+    if(!isWin && !characterCtx.fullResistance){
       if(!ctx.isFlee){
         if(ctx.result === ctx.onMonster.cr -1){
-          ctx.setHp(ctx.hp - ctx.onMonster.minDamage)
+          ctx.setHp(- ctx.onMonster.minDamage)
         }
-        if(ctx.result === 1){
-          ctx.setHp(ctx.hp - ctx.onMonster.maxDamage)
+        else if(ctx.result === 1){
+          ctx.setHp(- ctx.onMonster.maxDamage)
         }
         else{
-          ctx.setHp(ctx.hp - ctx.onMonster.baseDamage)
+          ctx.setHp(- ctx.onMonster.baseDamage)
         }
       }
       else{
          if(ctx.result === 1){
-          ctx.setHp(ctx.hp - ctx.onMonster.maxDamage)
+          ctx.setHp(- ctx.onMonster.maxDamage)
         }
         else{
-          ctx.setHp(ctx.hp - ctx.onMonster.baseDamage)
+          ctx.setHp(- ctx.onMonster.baseDamage)
         }
       }
     }
@@ -122,6 +124,7 @@ const App = () => {
       ctx.setPosition() 
     }
     setUsedItemOnce(false)
+    characterCtx.setToDefault()
   }
   
 
@@ -159,15 +162,15 @@ const App = () => {
           </DialogHeader>
             <p className="text-5xl">
               {ctx.result}
-              {ctx.usedItem.attack_measure !== 0 && !ctx.isFlee? <span>+{ctx.usedItem.attack_measure}</span>: <></>}  
-              {ctx.usedItem.flee_measure !== 0 && ctx.isFlee? <span>+{ctx.usedItem.flee_measure}</span>: <></>}  
+              {/* {ctx.usedItem.attack_measure !== 0 && !ctx.isFlee? <span>+{ctx.usedItem.attack_measure}</span>: <></>}  
+              {ctx.usedItem.flee_measure !== 0 && ctx.isFlee? <span>+{ctx.usedItem.flee_measure}</span>: <></>}   */}
             </p>
             <DialogFooter className="w-full flex justify-between gap-10">
               {inspiration && !isWin ? 
               <div className="flex items-center gap-2">
                 <HoverCard>
                   <HoverCardTrigger>
-                    <Button className="p-0 h-20 w-20" variant={"ghost"} onClick={()=>{setOpenDialog(false), setInspiration(false), setUsedItemOnce(false), setRolled(false)}}>
+                    <Button className="p-0 h-20 w-20" variant={"ghost"} onClick={()=>{setOpenDialog(false), setInspiration(false), setUsedItemOnce(false), setRolled(false), characterCtx.setToDefault()}}>
                       <img src="/inspiration.png" alt="" className="size-20" />
                     </Button>
                   </HoverCardTrigger>
@@ -192,8 +195,8 @@ const App = () => {
       <div className="absolute top-[52%] left-[50%] -translate-x-1/2 -translate-y-1/2">
         <div className="flex flex-col gap-10 items-center cardWrapper">
           <Card></Card>
-          <button disabled={rolled} className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(false), setRolled(true)}}>Fight</button>
-          <button disabled={rolled} className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(true), setRolled(true)}}>Flee: {ctx?.onMonster?.flee}</button>
+          <button  className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(false), setRolled(true)}}>Fight</button>
+          <button  className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(true), setRolled(true)}}>Flee: {ctx?.onMonster?.flee}</button>
         </div>
       </div>
 
@@ -240,18 +243,8 @@ const App = () => {
                     </div>
                   </HoverCardTrigger>
                   <HoverCardContent className="cursor-pointer">
-                    <p>{name}</p>
-                    <p >
-                      {group[0].heal_measure!== 0?
-                      <p>Heal: {group[0].heal_measure}</p>:<></>
-                      }
-                      {group[0].attack_measure!== 0?
-                      <p>Attack: {group[0].attack_measure}</p>:<></>
-                      }
-                      {group[0].flee_measure!== 0?
-                      <p>Flee: {group[0].flee_measure}</p>:<></>
-                      }
-                    </p>
+                    <p className="text-xl font-bold">{name}</p>
+                    <p>{group[0].description}</p>
                   </HoverCardContent>
                 </HoverCard>;
           })}

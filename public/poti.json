@@ -1,0 +1,178 @@
+[   
+    {
+        "itemName":"Potion of Healing",
+        "itemIcon": "potions/heal1.png",
+        "tier": "low",
+        "rarity": "common",
+        "type": "consumable",
+        "effect": "heal",
+        "drawback": "",
+        "description": "Restores 2 HP. A mild red tonic that seals small wounds.",
+        "measure": 2
+    },
+    {
+        "itemName":"Potion of Greater Healing",
+        "itemIcon":"potions/heal2.png",
+        "tier": "medium",
+        "rarity": "rare",
+        "type": "consumable",
+        "effect": "heal",
+        "drawback": "",
+        "description": "Restores 4 HP. Stronger brew that mends deeper injuries.",
+        "measure": 4
+    },
+    {
+        "itemName":"Potion of Superior Healing",
+        "itemIcon":"potions/heal3.png",
+        "tier": "high",
+        "rarity": "epic",
+        "type": "consumable",
+        "effect": "heal",
+        "drawback": "",
+        "description": "Restores 6 HP. Potent life essence for critical wounds.",
+        "measure": 6
+    },
+        {
+        "itemName":"Potion of Supreme Healing",
+        "itemIcon":"potions/maxheal.png",
+        "tier": "medium",
+        "rarity": "rare",
+        "type": "consumable",
+        "effect": "maxHeal",
+        "drawback": "disadvantage",
+        "description": "Restores you to full HP, but your next roll has disadvantage.",
+        "measure": 6
+    },
+    {
+        "itemName": "Potion of Hill Giant Strength",
+        "itemIcon": "potions/attack1.png",
+        "tier": "low",
+        "rarity": "common",
+        "type": "consumable",
+        "effect": "attack",
+        "drawback": "dmgOnFail",
+        "description": "Gain +1 Attack this turn. Fail, and enemies hit harder.",
+        "measure": 1
+    },
+    {
+        "itemName": "Potion of Frost Giant Strength",
+        "itemIcon": "potions/attack2.png",
+        "tier": "medium",
+        "rarity": "rare",
+        "type": "consumable",
+        "effect": "attack",
+        "drawback": "dmgOnFail",
+        "description": "Gain +2 Attack this turn. Fail, and enemies hit harder.",
+        "measure": 2
+    },
+    {
+        "itemName": "Potion of Cloud Giant Strength",
+        "itemIcon": "potions/attack3.png",
+        "tier": "high",
+        "rarity": "epic",
+        "type": "consumable",
+        "effect": "attack",
+        "drawback": "dmgOnFail",
+        "description": "Gain +3 Attack this turn. Fail, and enemies hit harder.",
+        "measure": 3
+    },
+    {
+        "itemName": "Potion of Storm Giant Strength",
+        "itemIcon": "potions/attack4.png",
+        "tier": "high",
+        "rarity": "legendary",
+        "type": "consumable",
+        "effect": "attack",
+        "drawback": "dmgOnFail",
+        "description": "Gain +4 Attack this turn. Fail, and enemies hit harder.",
+        "measure": 4
+    },
+    {
+        "itemName": "Potion of Swiftness",
+        "itemIcon": "potions/flee1.png",
+        "tier": "medium",
+        "rarity": "rare",
+        "type": "consumable",
+        "effect": "flee",
+        "drawback": "dmgOnFail",
+        "description": "Gain +4 Flee this turn. Fail, and enemies deal extra damage.",
+        "measure": 2
+    },
+    {
+        "itemName": "Potion of Invisibility",
+        "itemIcon": "potions/flee2.png",
+        "tier": "high",
+        "rarity": "legendary",
+        "type": "consumable",
+        "effect": "flee",
+        "drawback": "dmgOnFail",
+        "description": "Gain +4 Flee this turn. Fail, and enemies deal extra damage.",
+        "measure": 4
+    },
+    {
+        "itemName": "Elixir of Foresight",
+        "itemIcon": "potions/advantage.png",
+        "tier": "high",
+        "rarity": "legendary",
+        "type": "consumable",
+        "effect": "advantage",
+        "drawback": "",
+        "description": "Grants advantage on your next roll. The future favors the prepared.",
+        "measure": 0
+    },
+    {
+        "itemName": "Tincture of Plenty",
+        "itemIcon": "potions/reward1.png",
+        "tier": "low",
+        "rarity": "common",
+        "type": "consumable",
+        "effect": "rewardPoti",
+        "drawback": "",
+        "description": "Your next potion reward is doubled. Fortune favors the bold.",
+        "measure": 0
+    },
+    {
+        "itemName": "Elixir of Reckless Power",
+        "itemIcon": "potions/double.png",
+        "tier": "medium",
+        "rarity": "rare",
+        "type": "consumable",
+        "effect": "double",
+        "drawback": "hpTo1",
+        "description": "Your next roll is doubled, but your HP drops to 1. Power always has a price.",
+        "measure": 0
+    },
+    {
+        "itemName": "Inspiration Tonic",
+        "itemIcon": "potions/inspiration.png",
+        "tier": "high",
+        "rarity": "legendary",
+        "type": "consumable",
+        "effect": "inspiration",
+        "drawback": "",
+        "description": "Restores your Inspiration. A spark to reignite your heroic spirit.",
+        "measure": 0
+    },
+    {
+        "itemName": "Phial of Resistance",
+        "itemIcon": "potions/resistance.png",
+        "tier": "low",
+        "rarity": "common",
+        "type": "consumable",
+        "effect": "resistance",
+        "drawback": "",
+        "description": "Reduces enemy damage by half on a failed roll. A shield in liquid form.",
+        "measure": 0
+    },
+    {
+        "itemName": "Aegis Brew",
+        "itemIcon": "potions/negats.png",
+        "tier": "high",
+        "rarity": "legendary",
+        "type": "consumable",
+        "effect": "fullResistance",
+        "drawback": "",
+        "description": "Completely negates damage on a failed roll. Invincibility, distilled.",
+        "measure": 0
+    }
+]

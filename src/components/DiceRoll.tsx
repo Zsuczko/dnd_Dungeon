@@ -2,6 +2,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import DiceBox from "@3d-dice/dice-box";
 import { MainContext } from "../datas/MainContext";
+import { CharacterContext } from "../datas/CharacterContext";
 
 // Temporary type declaration so TS stops complaining
 declare module "@3d-dice/dice-box";
@@ -21,6 +22,7 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
   const [first, setFirst] = useState<boolean>(true)
 
   const ctx = useContext(MainContext)
+  const character = useContext(CharacterContext)
 
   useEffect(() => {
     if(first) {
@@ -42,19 +44,27 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
                 //     ctx?.setResult(element.value)
                 // });
 
-                
-              console.log(ctx.usedItem.givesAdvantage)
 
-              if(!ctx.usedItem.givesAdvantage){
-                ctx?.setResult(results[0].value)
-              }
-              else{
+              if(character.advantage){
+
                 const dobasok: number[] = []
                 results.forEach(element => {
                     
                     dobasok.push(element.value)
                 });             
                 ctx.setResult(dobasok.sort()[1])
+              }
+              else if(character.disadvantage){
+
+                const dobasok: number[] = []
+                results.forEach(element => {
+                    
+                    dobasok.push(element.value)
+                });             
+                ctx.setResult(dobasok.sort()[0])
+              }
+              else{
+                ctx?.setResult(results[0].value)                
               }
 
             };
@@ -73,14 +83,16 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
   useEffect(()=>{
     if (ctx?.roll === true){
 
-      if(!ctx.usedItem.givesAdvantage){
+      if(character.advantage || character.disadvantage){
 
-        rollDice(["1d20"])
+        rollDice(["1d20", "1d20"])
         ctx.setRoll(false)
       }
       else{
         console.log("jó")
-        rollDice(["1d20", "1d20"])
+
+
+          rollDice(["1d20"])
         ctx.setRoll(false)
       }
     }
