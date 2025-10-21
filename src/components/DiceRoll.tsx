@@ -32,7 +32,7 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
 
         const box = new DiceBox("#dice-box", {
             assetPath: "/assets/dice-box/", 
-            theme: "wooden",
+            theme: "default",
             Offscreen: true,
             scale: 14,
         });
@@ -127,7 +127,9 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
   return (
     <div >
     <div
-    className="w-[28em] h-[20em] bg-[url(bgs/dicetray3.png)] bg-contain bg-no-repeat bg-center"
+    className="w-[28em] h-[20em] border-2 border-black rounded-2xl"
+
+    // className="w-[28em] h-[20em] bg-[url(bgs/dicetray3.png)] bg-contain bg-no-repeat bg-center"
         id="dice-box"
         
         // onClick={() => rollDice(["1d20", "1d20"])}
