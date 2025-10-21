@@ -169,6 +169,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
 
     useEffect(()=>{
 
+
         fetch("/monsters.json").then(res=> res.json()).then(item=>
            setAllMonster(item)
         )
@@ -218,8 +219,57 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         const suffledMonsters = Array.from(Monster).sort(() => 0.5 - Math.random()).slice(0, howmany)
         setCards(prev => [...prev, ...suffledMonsters])
 
-        for (let i = 0; i < howmany; i++) {   
-            const itemss = allItems.filter(x=>x.tier === rarity)
+        for (let i = 0; i < howmany; i++) {
+
+            let rary = "common"
+            if(rarity === "low"){
+                const randi = getRndInteger(1, 101)
+                if(randi < 75){
+                    rary = "common"
+                }
+                else if(randi< 95){
+                    rary = "rare"
+                }
+                else if(randi < 99){
+                    rary = "epic"
+                }
+                else{
+                    rary = "legendary"
+                }
+            }
+            if(rarity === "medium"){
+                const randi = getRndInteger(1, 101)
+                if(randi < 40){
+                    rary = "common"
+                }
+                else if(randi< 85){
+                    rary = "rare"
+                }
+                else if(randi < 97){
+                    rary = "epic"
+                }
+                else{
+                    rary = "legendary"
+                }
+            }
+            if(rarity === "high"){
+                const randi = getRndInteger(1, 101)
+                if(randi < 20){
+                    rary = "common"
+                }
+                else if(randi< 70){
+                    rary = "rare"
+                }
+                else if(randi < 90){
+                    rary = "epic"
+                }
+                else{
+                    rary = "legendary"
+                }
+            }
+
+            const itemss = allItems.filter(x=>x.rarity === rary)
+            // const itemss = allItems.filter(x=>x.itemName === "Elixir of Foresight")
             const theItem = Array.from(itemss).sort(()=> 0.5- Math.random()).slice(0, 1)
             setItems(prev =>[...prev, theItem[0]])
         }

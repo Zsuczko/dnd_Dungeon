@@ -21,6 +21,9 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
 
   const [first, setFirst] = useState<boolean>(true)
 
+  const [results, setResults] = useState<number[]>([])
+  const [vami, setVami] = useState<boolean>(false)
+
   const ctx = useContext(MainContext)
   const character = useContext(CharacterContext)
 
@@ -43,35 +46,57 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
                     
                 //     ctx?.setResult(element.value)
                 // });
+              setResults([])
+              results.forEach(element=>{
+                setResults(prev=>[...prev, element.value])
+              })
+              // console.log(character.advantage)
+              // if(character.advantage){
 
-
-              if(character.advantage){
-
-                const dobasok: number[] = []
-                results.forEach(element => {
+              //   const dobasok: number[] = []
+              //   results.forEach(element => {
                     
-                    dobasok.push(element.value)
-                });             
-                ctx.setResult(dobasok.sort()[1])
-              }
-              else if(character.disadvantage){
+              //       dobasok.push(element.value)
+              //   });             
+              //   console.log(dobasok)
+              //   ctx.setResult(dobasok.sort()[1])
+              // }
+              // else if(character.disadvantage){
 
-                const dobasok: number[] = []
-                results.forEach(element => {
+              //   const dobasok: number[] = []
+              //   results.forEach(element => {
                     
-                    dobasok.push(element.value)
-                });             
-                ctx.setResult(dobasok.sort()[0])
-              }
-              else{
-                ctx?.setResult(results[0].value)                
-              }
+              //       dobasok.push(element.value)
+              //   });             
+              //   ctx.setResult(dobasok.sort()[0])
+              // }
+              // else{
+              //   ctx?.setResult(results[0].value)                
+              // }
 
             };
         });
         setFirst(false)
     }
   }, [onResult]);
+
+  useEffect(()=>{
+
+    if(vami){
+      if(character.advantage){
+        
+        ctx.setResult(results.sort((a,b)=>a-b)[1])
+      }
+      else if(character.disadvantage){            
+        ctx.setResult(results.sort((a,b)=>a-b)[0])
+      }
+      else{
+        ctx?.setResult(results[0])                
+      }
+    }
+  },[results])
+
+
 
   
   const rollDice = (notation: string | string[]) => {
@@ -82,7 +107,8 @@ export default function DiceRoller({ onResult }: DiceRollerProps) {
 
   useEffect(()=>{
     if (ctx?.roll === true){
-
+      setVami(true)
+      console.log(character.advantage)
       if(character.advantage || character.disadvantage){
 
         rollDice(["1d20", "1d20"])
