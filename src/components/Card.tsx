@@ -34,7 +34,12 @@ const Card = () => {
         <p>
             <HoverCard>
                   <HoverCardTrigger>
-                  <img src={ctx.onItem?.itemIcon} className={`size-15 border-2 rounded-[50%] border-[${szin}] bg-[${hatterSzin}] p-1`} />
+                  <img src={ctx.onItem?.itemIcon} className={`size-15 border-2 rounded-[50%] p-1`}  
+                  style={{
+                        borderColor: szin,
+                        backgroundColor: hatterSzin
+                  }} />
+                  {/* <img src={ctx.onItem?.itemIcon} className={`size-15 border-2 rounded-[50%] border-[${ctx.onItem?.rarity==="common"? "#aaaaaa": (ctx.onItem?.rarity=== "rare"? "#5de15d": (ctx.onItem?.rarity === "epic"? "#AD03DE": "#FFD700"))}] bg-[${ctx.onItem?.rarity==="common"? "#aaaaaaab": (ctx.onItem?.rarity=== "rare"? "#5de15dab": (ctx.onItem?.rarity === "epic"? "#af03deab": "#ffd900ab"))}] p-1`} /> */}
 
                   </HoverCardTrigger>
                   <HoverCardContent className="cursor-pointer">

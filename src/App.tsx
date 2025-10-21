@@ -126,13 +126,15 @@ const App = () => {
 
 
   const useItem = (name: string) =>{
-    if(!usedItemOnce){
-      ctx.removeItem(name)
-      setUsedItemOnce(true)
-    }
-    else{
-      toast.error("You have already used an item this round")
-    }
+    // if(!usedItemOnce){
+    //   ctx.removeItem(name)
+    //   setUsedItemOnce(true)
+    // }
+    // else{
+    //   toast.error("You have already used an item this round")
+    // }
+    ctx.removeItem(name)
+    setUsedItemOnce(true)
   }
 
   useEffect(()=>{
@@ -268,16 +270,43 @@ const App = () => {
                 </HoverCard>: <></>
         }
       </div>
-
-      <div className="border-2 border-black absolute top-[50%] left-[15%] -translate-x-1/2 -translate-y-1/2 w-[25em] h-[15em] rounded-2xl p-5">
+        <div  className="relative border-2 border-black top-[30%] left-[15%] -translate-x-1/2 -translate-y-1/2 w-[25em] h-[5em] rounded-2xl p-1 flex items-center gap-2">
+            <span className="absolute -top-3 left-4 bg-white px-2 text-sm font-semibold">
+            Used Items
+          </span>
+          
+          {ctx.usedItem.map(item=>{
+            const szin = `${item.rarity==="common"? "#aaaaaa": (item.rarity=== "rare"? "#5de15d": (item.rarity === "epic"? "#AD03DE": "#FFD700"))}`
+              const hatterSzin = `${item.rarity==="common"? "#aaaaaaab": (item.rarity=== "rare"? "#5de15dab": (item.rarity === "epic"? "#af03deab": "#ffd900ab"))}`
+            return <img src={item.itemIcon} alt="" className={`size-16 border-2 rounded-[50%] p-1 z-10`}
+             style={{
+                  borderColor: szin,
+                  backgroundColor: hatterSzin
+            }}
+            />
+          })}
+        </div>
+      <div className="border-2 border-black relative top-[50%] left-[15%] -translate-x-1/2 -translate-y-1/2 w-[25em] h-[15em] rounded-2xl p-5">
+          <span className="absolute -top-3 left-4 bg-white px-2 text-sm font-semibold">
+            Inventory  
+          </span>
         <div className="grid grid-cols-4">
            {Object.entries(groupedItem).map(([name, group]) => {
+
+              const szin = `${group[0].rarity==="common"? "#aaaaaa": (group[0].rarity=== "rare"? "#5de15d": (group[0].rarity === "epic"? "#AD03DE": "#FFD700"))}`
+              const hatterSzin = `${group[0].rarity==="common"? "#aaaaaaab": (group[0].rarity=== "rare"? "#5de15dab": (group[0].rarity === "epic"? "#af03deab": "#ffd900ab"))}`
+
             return    <HoverCard>
                   <HoverCardTrigger>
                     {/* <p onClick={()=>{useItem(idx)}}>{item.itemName}</p>  */}
                     <div className="relative inline-block" onClick={()=>{useItem(name)}}>
-                      <p className=" px-3 py-1 w-24 h-24">
-                        <img src={group[0].itemIcon} alt="" className={`size-16 border-2 rounded-[50%] border-[${group[0].rarity==="common"? "#aaaaaa": (group[0].rarity=== "rare"? "#5de15d": (group[0].rarity === "epic"? "#AD03DE": "#FFD700"))}] bg-[${group[0].rarity==="common"? "#aaaaaaab": (group[0].rarity=== "rare"? "#5de15dab": (group[0].rarity === "epic"? "#af03deab": "#ffd900ab"))}] p-1`}/>
+                      <p className=" px-3 py-1 w-24 h-24 z-10">
+                        <img src={group[0].itemIcon} alt="" 
+                        style={{
+                              borderColor: szin,
+                              backgroundColor: hatterSzin
+                        }}
+                        className={`size-16 border-2 rounded-[50%] p-1 z-10`}/>
                       </p>
                       <span className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 text-xs rounded-full px-1">
                         {group.length}

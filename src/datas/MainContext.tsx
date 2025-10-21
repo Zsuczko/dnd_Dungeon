@@ -32,7 +32,7 @@ type MainContextType ={
     cards: MonsterType[],
     items: PotiType[],
     onItem: PotiType,
-    usedItem: PotiType,
+    usedItem: PotiType[],
     onMonster: MonsterType,
     position: number,
     roll: boolean,
@@ -64,17 +64,7 @@ export const MainContext = createContext<MainContextType>({
         description: "",
         measure: 0,
     },
-    usedItem: {
-        itemName: "",
-        itemIcon: "",
-        tier: "",
-        rarity: "",
-        type: "",
-        effect: "",
-        drawback: "",
-        description: "",
-        measure: 0,
-    },
+    usedItem: [],
     onMonster: {
         enemyName: "",
         enemyIcon: "",
@@ -144,17 +134,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         description: "",
         measure: 0,
         })
-    const [usedItem, setUsedItem] = useState<PotiType>({
-        itemName: "",
-        itemIcon: "",
-        tier: "",
-        rarity: "",
-        type: "",
-        effect: "",
-        drawback: "",
-        description: "",
-        measure: 0,
-        })
+    const [usedItem, setUsedItem] = useState<PotiType[]>([])
    
     const [position, setPosition] = useState<number>(-1)
 
@@ -298,17 +278,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
 
         setPosition(position+1)
         if(position < cards.length){
-            setUsedItem({         
-                itemName: "",
-                itemIcon: "",
-                tier: "",
-                rarity: "",
-                type: "",
-                effect: "",
-                drawback: "",
-                description: "",
-                measure: 0,
-                })
+            setUsedItem([])
             setOnMonster(cards[position])
             setOnItem(items[position])
             console.log(onItem)
@@ -323,7 +293,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         if (i === -1) return; 
         const realIndex = userItems.length - 1 - i;
         const item = userItems[realIndex];
-        setUsedItem(item);
+        setUsedItem(prev => [...prev, item]);
 
         if(item.effect === "heal"){
             HandleSetHp(+ item.measure);
@@ -333,11 +303,11 @@ const MainContextProvider = (props: {children: ReactNode}) => {
             character.setDisadvantage(true)
         }
         if(item.effect === "attack"){
-            character.setAttack(item.measure)
+            character.setAttack(character.attack + item.measure)
             character.setPlusDmg(true)
         }
         if(item.effect === "flee"){
-            character.setFlee(item.measure)
+            character.setFlee(character.flee + item.measure)
             character.setPlusDmg(true)
         }
         if(item.effect === "advantage"){
