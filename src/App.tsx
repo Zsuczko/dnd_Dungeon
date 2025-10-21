@@ -6,7 +6,7 @@ import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader } from "
 import { Button } from "./components/ui/button"
 import { Slider } from "./components/ui/slider"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./components/ui/hover-card"
-import { toast } from "sonner"
+// import { toast } from "sonner"í
 import { CharacterContext } from "./datas/CharacterContext"
 
 const App = () => {
@@ -21,9 +21,9 @@ const App = () => {
 
 
 
-  const [usedItemOnce, setUsedItemOnce] = useState<boolean>(false)
+  // const [usedItemOnce, setUsedItemOnce] = useState<boolean>(false)
 
-  const [rolled, setRolled] = useState<boolean>(false)
+  // const [rolled, setRolled] = useState<boolean>(false)
 
   const [dmg, setDmg] = useState<number>(0)
 
@@ -134,7 +134,7 @@ const App = () => {
     //   toast.error("You have already used an item this round")
     // }
     ctx.removeItem(name)
-    setUsedItemOnce(true)
+    // setUsedItemOnce(true)
   }
 
   useEffect(()=>{
@@ -161,13 +161,13 @@ const App = () => {
   const HandelDialogClose = () =>{
 
     setOpenDialog(false)
-    setRolled(false) 
+    // setRolled(false) 
     if (isWin || !ctx.isFlee){
       if(ctx.hp> 0){
         ctx.setPosition() 
       }
     }
-    setUsedItemOnce(false)
+    // setUsedItemOnce(false)
     characterCtx.setToDefault()
   }
   
@@ -216,7 +216,8 @@ const App = () => {
               <div className="flex items-center gap-2">
                 <HoverCard>
                   <HoverCardTrigger>
-                    <Button className="p-0 h-20 w-20" variant={"ghost"} onClick={()=>{setOpenDialog(false), ctx.setInspirtaion(false), setUsedItemOnce(false), setRolled(false), characterCtx.setToDefault()}}>
+                  {/* setUsedItemOnce(false), setRolled(false), */}
+                    <Button className="p-0 h-20 w-20" variant={"ghost"} onClick={()=>{setOpenDialog(false), ctx.setInspirtaion(false), characterCtx.setToDefault()}}>
                       <img src="/inspiration.png" alt="" className="size-20" />
                     </Button>
                   </HoverCardTrigger>
@@ -241,8 +242,9 @@ const App = () => {
       <div className="absolute top-[52%] left-[50%] -translate-x-1/2 -translate-y-1/2">
         <div className="flex flex-col gap-10 items-center cardWrapper">
           <Card></Card>
-          <button  className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(false), setRolled(true)}}>Fight</button>
-          <button className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(true), setRolled(true)}}>Flee: {ctx?.onMonster?.flee}</button>
+          {/* setRolled(true) */}
+          <button  className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(false)}}>Fight</button>
+          <button className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(true)}}>Flee: {ctx?.onMonster?.flee}</button>
         </div>
       </div>
 

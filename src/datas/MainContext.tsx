@@ -161,6 +161,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         fetch("/poti.json").then(res => res.json()).then(data =>{
             setAllItems(data)
         })
+        setMaxHp(10)
         
     },[])
 
