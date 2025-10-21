@@ -5,9 +5,9 @@
 
 #dice-box > canvas {
     position: absolute;
-    width: 30em;
-    height: 15em;
-    padding: 1em;
+    width: 28em;
+    height: 20em;
+    padding: 2em;
 }
 
 @theme inline {
@@ -206,3 +206,7 @@
    background-color: brown;
   transform: rotateY(180deg);
 }
+
+/* body{
+  background-image: url("/bgs/fa3.png");
+} */

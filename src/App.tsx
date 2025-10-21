@@ -37,8 +37,10 @@ const App = () => {
 
   useEffect(()=>{
     if(ctx?.result !== 0){
-
-      if(ctx?.isFlee){
+      if(ctx.result === 20){
+        setIswin(true)
+      }
+      else if(ctx?.isFlee){
         if(ctx.result + characterCtx.flee >= ctx.onMonster?.flee){
           setIswin(true)
         }
@@ -173,7 +175,7 @@ const App = () => {
   
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
+    <div className="relative w-screen h-screen overflow-hidden ">
     <Dialog open={openDialogGameover} onOpenChange={()=>{window.location.reload()}}>
       <DialogContent>
         <DialogHeader>
@@ -328,11 +330,11 @@ const App = () => {
         </div>
       </div>
 
-      <div className=" absolute top-[20%] left-[80%] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
+      <div className=" absolute top-[25%] left-[80%] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
         <DiceRoller></DiceRoller>
       </div>
 
-      <div className="border-2 border-black absolute top-[70%] left-[85%] -translate-x-1/2 -translate-y-1/2 w-[15em] h-[23em] rounded-2xl flex justify-center items-center">
+      <div className="border-2 border-black absolute top-[75%] left-[85%] -translate-x-1/2 -translate-y-1/2 w-[13em] h-[18em] rounded-2xl flex justify-center items-center">
         {ctx.position} / {ctx.cards.length}
       </div>
     </div>

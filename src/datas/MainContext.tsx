@@ -183,7 +183,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
 
         let newNum = n
         if(character.plusDmg)
-            newNum += 2
+            newNum -= 2
 
         if (character.resistance)
             newNum = Math.floor(newNum/ 2)
@@ -208,16 +208,19 @@ const MainContextProvider = (props: {children: ReactNode}) => {
 
         for (let i = 0; i < howmany; i++) {
 
+            let randi = getRndInteger(1, 101)
             let rary = "common"
             if(rarity === "low"){
-                const randi = getRndInteger(1, 101)
-                if(randi < 75){
+                if(isboss){
+                    randi+=10
+                }
+                if(randi < 60){
                     rary = "common"
                 }
-                else if(randi< 95){
+                else if(randi< 85){
                     rary = "rare"
                 }
-                else if(randi < 99){
+                else if(randi < 96){
                     rary = "epic"
                 }
                 else{
@@ -225,14 +228,16 @@ const MainContextProvider = (props: {children: ReactNode}) => {
                 }
             }
             if(rarity === "medium"){
-                const randi = getRndInteger(1, 101)
-                if(randi < 40){
+                if(isboss){
+                    randi+=20
+                }
+                if(randi < 30){
                     rary = "common"
                 }
-                else if(randi< 85){
+                else if(randi< 75){
                     rary = "rare"
                 }
-                else if(randi < 97){
+                else if(randi < 94){
                     rary = "epic"
                 }
                 else{
@@ -240,11 +245,11 @@ const MainContextProvider = (props: {children: ReactNode}) => {
                 }
             }
             if(rarity === "high"){
-                const randi = getRndInteger(1, 101)
-                if(randi < 20){
+                // const randi = getRndInteger(1, 101)
+                if(randi < 15){
                     rary = "common"
                 }
-                else if(randi< 70){
+                else if(randi< 60){
                     rary = "rare"
                 }
                 else if(randi < 90){
