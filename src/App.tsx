@@ -19,7 +19,7 @@ const App = () => {
 
   const [isWin, setIswin] = useState<boolean>(true)
 
-  const [inspiration, setInspiration] = useState<boolean>(true)
+
 
   const [usedItemOnce, setUsedItemOnce] = useState<boolean>(false)
 
@@ -163,7 +163,9 @@ const App = () => {
     setOpenDialog(false)
     setRolled(false) 
     if (isWin || !ctx.isFlee){
-      ctx.setPosition() 
+      if(ctx.hp> 0){
+        ctx.setPosition() 
+      }
     }
     setUsedItemOnce(false)
     characterCtx.setToDefault()
@@ -210,11 +212,11 @@ const App = () => {
               {/* {ctx.usedItem.flee_measure !== 0 && ctx.isFlee? <span>+{ctx.usedItem.flee_measure}</span>: <></>}   */}
             </p>
             <DialogFooter className="w-full flex justify-between gap-10">
-              {inspiration && !isWin ? 
+              {ctx.inspiration && !isWin ? 
               <div className="flex items-center gap-2">
                 <HoverCard>
                   <HoverCardTrigger>
-                    <Button className="p-0 h-20 w-20" variant={"ghost"} onClick={()=>{setOpenDialog(false), setInspiration(false), setUsedItemOnce(false), setRolled(false), characterCtx.setToDefault()}}>
+                    <Button className="p-0 h-20 w-20" variant={"ghost"} onClick={()=>{setOpenDialog(false), ctx.setInspirtaion(false), setUsedItemOnce(false), setRolled(false), characterCtx.setToDefault()}}>
                       <img src="/inspiration.png" alt="" className="size-20" />
                     </Button>
                   </HoverCardTrigger>
@@ -240,7 +242,7 @@ const App = () => {
         <div className="flex flex-col gap-10 items-center cardWrapper">
           <Card></Card>
           <button  className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(false), setRolled(true)}}>Fight</button>
-          <button  className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(true), setRolled(true)}}>Flee: {ctx?.onMonster?.flee}</button>
+          <button className="text-5xl border-2 w-fit p-3 rounded-2xl" onClick={()=>{ctx?.setRoll(true), ctx.setIsFlee(true), setRolled(true)}}>Flee: {ctx?.onMonster?.flee}</button>
         </div>
       </div>
 
@@ -259,7 +261,7 @@ const App = () => {
 
       
       <div className="border-0 absolute top-[10%] left-[32%] -translate-x-1/2 -translate-y-1/2 w-[5em] h-[5em] flex justify-center items-center">
-        {inspiration? 
+        {ctx.inspiration? 
                <HoverCard>
                   <HoverCardTrigger>
                     <img src="/inspiration.png" alt="" /> 

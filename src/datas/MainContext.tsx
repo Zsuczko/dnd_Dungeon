@@ -40,6 +40,8 @@ type MainContextType ={
     isFlee: boolean,
     maxHp: number,
     hp: number,
+    inspiration: boolean,
+    setInspirtaion: (b: boolean) => void,
     setHp: (h: number)=>void,
     setIsFlee: (f: boolean)=> void,
     setResult: (n: number)=> void,
@@ -84,6 +86,8 @@ export const MainContext = createContext<MainContextType>({
     isFlee: false,
     maxHp: 10,
     hp: 10,
+    inspiration: true,
+    setInspirtaion: ()=>{},
     setHp: ()=> {},
     setIsFlee: () => {}, // noop function
     setResult: () => {},
@@ -101,7 +105,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
 
     const character = useContext(CharacterContext)
 
-
+    const [inspiration, setInspiration] = useState<boolean>(true)
     const [cards, setCards] = useState<MonsterType[]>([])
     const [allMonster, setAllMonster] = useState<MonsterType[]>([])
 
@@ -321,7 +325,9 @@ const MainContextProvider = (props: {children: ReactNode}) => {
             HandleSetHp(1-Hp)
         }
         if(item.effect === "inspiration")
-            console.log("jo")
+        {
+            setInspiration(true)
+        }
         if(item.effect === "resistance"){
             character.setResistance(true)
         }
@@ -351,6 +357,8 @@ const MainContextProvider = (props: {children: ReactNode}) => {
             isFlee: isFlee,
             maxHp: maxHp,
             hp: Hp,
+            inspiration,
+            setInspirtaion: setInspiration,
             setHp: HandleSetHp,
             setIsFlee: setIsFlee, 
             setResult: HandleSetResult, 

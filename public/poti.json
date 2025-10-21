@@ -123,8 +123,8 @@
     {
         "itemName": "Tincture of Plenty",
         "itemIcon": "potions/reward1.png",
-        "tier": "low",
-        "rarity": "common",
+        "tier": "high",
+        "rarity": "epic",
         "type": "consumable",
         "effect": "rewardPoti",
         "drawback": "",
