@@ -111,6 +111,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
 
     const character = useContext(CharacterContext)
 
+
     const [cards, setCards] = useState<MonsterType[]>([])
     const [allMonster, setAllMonster] = useState<MonsterType[]>([])
 
@@ -178,14 +179,28 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         
     },[])
 
+    const HandleSetResult = (n: number)=>{
+        if(character.double){
+            setResult(n*2)
+        }
+        else{
+            setResult(n)
+        }
+    }
+
     const HandleSetHp = (n: number)=>{
+        
+        if(character.fullResistance)
+            return
 
         let newNum = n
+        if(character.plusDmg)
+            newNum += 2
 
         if (character.resistance)
             newNum = Math.floor(newNum/ 2)
-
-        if(Hp + n > maxHp){
+        
+        if(Hp + newNum > maxHp){
             setHp(maxHp)
         }
         else if(Hp + newNum < 0){
@@ -261,7 +276,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         setUsedItem(item);
 
         if(item.effect === "heal"){
-            HandleSetHp(Hp +item.measure);
+            HandleSetHp(+ item.measure);
         }
         if (item.effect === "maxHeal"){
             HandleSetHp(maxHp);
@@ -283,14 +298,16 @@ const MainContextProvider = (props: {children: ReactNode}) => {
         }
         if(item.effect === "double"){
             character.setDouble(true)
-            HandleSetHp(1)
+            HandleSetHp(1-Hp)
         }
         if(item.effect === "inspiration")
             console.log("jo")
-        if(item.effect === "resistance")
+        if(item.effect === "resistance"){
             character.setResistance(true)
-        if(item.effect === "fullResistance")
+        }
+        if(item.effect === "fullResistance"){
             character.setFullResistance(true)
+        }
 
         setUserItems(prev => prev.filter((_, id) => id !== realIndex))
     }
@@ -316,7 +333,7 @@ const MainContextProvider = (props: {children: ReactNode}) => {
             hp: Hp,
             setHp: HandleSetHp,
             setIsFlee: setIsFlee, 
-            setResult: setResult, 
+            setResult: HandleSetResult, 
             setRoll: setRoll, 
             setPosition: HandlePosition, 
             addItem: HandleAddItem,

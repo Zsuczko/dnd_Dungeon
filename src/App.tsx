@@ -25,6 +25,8 @@ const App = () => {
 
   const [rolled, setRolled] = useState<boolean>(false)
 
+  const [dmg, setDmg] = useState<number>(0)
+
 
 
   useEffect(()=>{
@@ -54,14 +56,52 @@ const App = () => {
 
         }
       }
+
       setOpenDialog(true)
+      HandleDummyDamage()
     }
 
   },[ctx?.result])
 
+  const HandleDummyDamage = ()=>{
+    let newNum = 0
+
+    if(characterCtx.fullResistance){
+      setDmg(0)
+      return
+    }
+
+     if(!ctx.isFlee){
+        if(ctx.result === ctx.onMonster.cr -1){
+          newNum = ctx.onMonster.minDamage
+        }
+        else if(ctx.result === 1){
+          newNum = ctx.onMonster.maxDamage
+        }
+        else{
+          newNum = ctx.onMonster.baseDamage
+        }
+      }
+      else{
+         if(ctx.result === 1){
+          newNum = ctx.onMonster.maxDamage
+        }
+        else{
+          newNum = ctx.onMonster.baseDamage
+        }
+    }
+    if(characterCtx.plusDmg)
+        newNum += 2
+
+    if (characterCtx.resistance)
+        newNum = Math.floor(newNum/ 2)
+    setDmg(newNum)     
+  }
+
 
   const HandleDamage = () =>{
-    if(!isWin && !characterCtx.fullResistance){
+    console.log(isWin)
+    if(!isWin){
       if(!ctx.isFlee){
         if(ctx.result === ctx.onMonster.cr -1){
           ctx.setHp(- ctx.onMonster.minDamage)
@@ -154,16 +194,18 @@ const App = () => {
             <h1 className="text-4xl font-bold w-full">
               {ctx.isFlee ?  
               (isWin ? "You have escaped from the monster": 
-                `You couldn't escape. The monster has damaged you ${ctx.result === 1? ctx.onMonster.maxDamage: ctx.onMonster.baseDamage} hp`) : 
+                `You couldn't escape. The monster has damaged you ${dmg} hp`) : 
               (isWin ? "You have defeated the monster": 
-              `The monster has damaged you ${ctx.result === ctx.onMonster?.cr - 1? ctx.onMonster.minDamage: (ctx.result === 1? ctx.onMonster.maxDamage: ctx.onMonster.baseDamage)} hp`
+              `The monster has damaged you ${dmg} hp`
               )}
+              {/* ctx.result === ctx.onMonster?.cr - 1? ctx.onMonster.minDamage: (ctx.result === 1? ctx.onMonster.maxDamage: ctx.onMonster.baseDamage */}
               </h1>
           </DialogHeader>
             <p className="text-5xl">
               {ctx.result}
-              {/* {ctx.usedItem.attack_measure !== 0 && !ctx.isFlee? <span>+{ctx.usedItem.attack_measure}</span>: <></>}  
-              {ctx.usedItem.flee_measure !== 0 && ctx.isFlee? <span>+{ctx.usedItem.flee_measure}</span>: <></>}   */}
+              {characterCtx.attack !== 0 && !ctx.isFlee? <span>{characterCtx.attack > 0? `+${characterCtx.attack}`: `${characterCtx.attack}`}</span>: <></>}  
+              {characterCtx.flee !== 0 && ctx.isFlee? <span>{characterCtx.flee > 0? `+${characterCtx.flee}`: `${characterCtx.flee}`}</span>: <></>}  
+              {/* {ctx.usedItem.flee_measure !== 0 && ctx.isFlee? <span>+{ctx.usedItem.flee_measure}</span>: <></>}   */}
             </p>
             <DialogFooter className="w-full flex justify-between gap-10">
               {inspiration && !isWin ? 
@@ -227,7 +269,7 @@ const App = () => {
         }
       </div>
 
-      <div className="border-2 border-black absolute top-[50%] left-[15%] -translate-x-1/2 -translate-y-1/2 w-[25em] h-[25em] rounded-2xl p-5">
+      <div className="border-2 border-black absolute top-[50%] left-[15%] -translate-x-1/2 -translate-y-1/2 w-[25em] h-[15em] rounded-2xl p-5">
         <div className="grid grid-cols-4">
            {Object.entries(groupedItem).map(([name, group]) => {
             return    <HoverCard>
@@ -235,7 +277,7 @@ const App = () => {
                     {/* <p onClick={()=>{useItem(idx)}}>{item.itemName}</p>  */}
                     <div className="relative inline-block" onClick={()=>{useItem(name)}}>
                       <p className=" px-3 py-1 w-24 h-24">
-                        <img src={group[0].itemIcon} alt="" className="size-16 border-2 rounded-[50%] border-[#FFD700] bg-[#fcfba585] p-1"/>
+                        <img src={group[0].itemIcon} alt="" className={`size-16 border-2 rounded-[50%] border-[${group[0].rarity==="common"? "#aaaaaa": (group[0].rarity=== "rare"? "#5de15d": (group[0].rarity === "epic"? "#AD03DE": "#FFD700"))}] bg-[${group[0].rarity==="common"? "#aaaaaaab": (group[0].rarity=== "rare"? "#5de15dab": (group[0].rarity === "epic"? "#af03deab": "#ffd900ab"))}] p-1`}/>
                       </p>
                       <span className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 text-xs rounded-full px-1">
                         {group.length}

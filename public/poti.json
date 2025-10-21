@@ -34,7 +34,7 @@
     },
         {
         "itemName":"Potion of Supreme Healing",
-        "itemIcon":"potions/maxheal.png",
+        "itemIcon":"potions/maxhp.png",
         "tier": "medium",
         "rarity": "rare",
         "type": "consumable",
@@ -95,14 +95,14 @@
         "type": "consumable",
         "effect": "flee",
         "drawback": "dmgOnFail",
-        "description": "Gain +4 Flee this turn. Fail, and enemies deal extra damage.",
+        "description": "Gain +2 Flee this turn. Fail, and enemies deal extra damage.",
         "measure": 2
     },
     {
         "itemName": "Potion of Invisibility",
         "itemIcon": "potions/flee2.png",
         "tier": "high",
-        "rarity": "legendary",
+        "rarity": "epic",
         "type": "consumable",
         "effect": "flee",
         "drawback": "dmgOnFail",

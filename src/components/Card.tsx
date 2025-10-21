@@ -14,6 +14,9 @@ const Card = () => {
     console.log(flipped)
   }
 
+  const szin = `${ctx.onItem?.rarity==="common"? "#aaaaaa": (ctx.onItem?.rarity=== "rare"? "#5de15d": (ctx.onItem?.rarity === "epic"? "#AD03DE": "#FFD700"))}`
+  const hatterSzin = `${ctx.onItem?.rarity==="common"? "#aaaaaaab": (ctx.onItem?.rarity=== "rare"? "#5de15dab": (ctx.onItem?.rarity === "epic"? "#af03deab": "#ffd900ab"))}`
+
   return (
 
     <div className="card-wrapper" onClick={flipCard}>
@@ -31,12 +34,13 @@ const Card = () => {
         <p>
             <HoverCard>
                   <HoverCardTrigger>
-                  <img src={ctx.onItem?.itemIcon} className="size-15 border-2 rounded-[50%] border-[#FFD700] bg-[#fcfba585] p-1" />
+                  <img src={ctx.onItem?.itemIcon} className={`size-15 border-2 rounded-[50%] border-[${szin}] bg-[${hatterSzin}] p-1`} />
+
                   </HoverCardTrigger>
                   <HoverCardContent className="cursor-pointer">
                     <p className="text-sm">{ctx.onItem?.itemName}</p>
                   </HoverCardContent>
-                </HoverCard>;
+                </HoverCard>
           </p>
       </div>
       <div className="back p-6 text-white border-2 border-black flex flex-col gap-1 w-fit rounded-2xl h-[23em]">
