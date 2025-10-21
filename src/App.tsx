@@ -190,7 +190,7 @@ const App = () => {
     </Dialog>
 
 
-      <Dialog open={openDialog} onOpenChange={()=>{HandelDialogClose(), HandleDamage()}}>
+      <Dialog open={openDialog} onOpenChange={()=>{HandleDamage(),HandelDialogClose()}}>
 
 
         <DialogContent className="w-fit bg-white">
